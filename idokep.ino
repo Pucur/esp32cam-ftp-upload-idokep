@@ -222,41 +222,24 @@ void initCamera() {
     config.fb_count = 1;
   }
 
-  esp_err_t err = esp_camera_init(&config);
-  if (err != ESP_OK) {
+  if (esp_camera_init(&config) != ESP_OK) {
     return;
   }
 
-  sensor_t * s = esp_camera_sensor_get();
+  sensor_t *s = esp_camera_sensor_get();
 
   // Rotate image
   s->set_vflip(s, 1);
 
-  s->set_aec2(s, 0);    
-  s->set_gain_ctrl(s, 1);  
-  s->set_exposure_ctrl(s, 1);
-  s->set_ae_level(s, 0);
-  s->set_gainceiling(s, GAINCEILING_4X);
-
-  s->set_whitebal(s, 1);
-  s->set_awb_gain(s, 1);
-  s->set_wb_mode(s, 1);
-
-  s->set_contrast(s, 1);
   s->set_brightness(s, 0);
+  s->set_contrast(s, 1);
   s->set_saturation(s, 1);
   s->set_sharpness(s, 1);
 
-  if (firstBoot) warmUpCamera();
-
-  s->set_exposure_ctrl(s, 0);
-  s->set_gain_ctrl(s, 0);
-
-
-  s->set_awb_gain(s, 0);
-  s->set_whitebal(s, 0);
-
-  firstBoot = false;
+  if (firstBoot) {
+    warmUpCamera();
+    firstBoot = false;
+  }
 }
 
 bool isNightTime() {
