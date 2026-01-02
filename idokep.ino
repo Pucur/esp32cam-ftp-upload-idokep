@@ -44,7 +44,7 @@ WiFiClient ftpData;
 //String ftpLog = "";
 //const size_t MAX_LOG = 6000;
 
-// ---- Kamera pinout ----
+// ---- Camera pinout ----
 #define PWDN_GPIO_NUM     32
 #define RESET_GPIO_NUM    -1
 #define XCLK_GPIO_NUM      0
@@ -151,7 +151,6 @@ if (sscanf(pasvData.c_str(), "%d,%d,%d,%d,%d,%d",
     return false;
   }
 
-  // ---- Feltöltés indítása ----
   sendFTP("STOR kep.jpg");
 
   String storResp = readFTP();
@@ -161,7 +160,6 @@ if (sscanf(pasvData.c_str(), "%d,%d,%d,%d,%d,%d",
     return false;
   }
 
-  // ---- Adatküldés ----
   size_t sent = 0;
   while (sent < len) {
     size_t chunk = ftpData.write(data + sent, len - sent);
@@ -229,8 +227,7 @@ void initCamera() {
   }
 
   sensor_t *s = esp_camera_sensor_get();
-
-s->set_vflip(s, 1);
+  s->set_vflip(s, 1);
 
   if (firstBoot) {
     warmUpCamera();
