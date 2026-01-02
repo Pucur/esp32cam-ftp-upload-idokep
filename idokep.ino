@@ -167,6 +167,8 @@ if (sscanf(pasvData.c_str(), "%d,%d,%d,%d,%d,%d",
     size_t chunk = ftpData.write(data + sent, len - sent);
     if (chunk == 0) break;
     sent += chunk;
+      delay(1);
+      yield();
   }
 
   ftpData.stop();
@@ -215,7 +217,7 @@ void initCamera() {
   if (psramFound()) {
     config.frame_size = FRAMESIZE_UXGA;
     config.jpeg_quality = 10;
-    config.fb_count = 2;
+    config.fb_count = 1;
   } else {
     config.frame_size = FRAMESIZE_SVGA;
     config.jpeg_quality = 12;
@@ -228,16 +230,7 @@ void initCamera() {
 
   sensor_t *s = esp_camera_sensor_get();
 
-  // Rotate image
-  s->set_vflip(s, 1);
-
-  s->set_brightness(s, 0);
-  s->set_contrast(s, 1);
-  s->set_saturation(s, 1);
-  s->set_sharpness(s, 1);
-  s->set_whitebal(s, 1);
-  s->set_exposure_ctrl(s, 1);
-  s->set_gain_ctrl(s, 1);
+s->set_vflip(s, 1);
 
   if (firstBoot) {
     warmUpCamera();
@@ -332,6 +325,7 @@ if (WiFi.status() != WL_CONNECTED) {
 
   camera_fb_t *fb = esp_camera_fb_get();
   if (!fb) return;
+  bool ok = ftpUpload(fb->buf, fb->len);
 
   if (!otaInProgress && ftpConnect()) {
     ftpUpload(fb->buf, fb->len);
@@ -340,3 +334,4 @@ if (WiFi.status() != WL_CONNECTED) {
 
   esp_camera_fb_return(fb);
 }
+
