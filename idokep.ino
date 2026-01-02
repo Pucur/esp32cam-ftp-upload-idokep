@@ -235,6 +235,9 @@ void initCamera() {
   s->set_contrast(s, 1);
   s->set_saturation(s, 1);
   s->set_sharpness(s, 1);
+  s->set_whitebal(s, 1);
+  s->set_exposure_ctrl(s, 1);
+  s->set_gain_ctrl(s, 1);
 
   if (firstBoot) {
     warmUpCamera();
