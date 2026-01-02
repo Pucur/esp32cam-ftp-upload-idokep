@@ -131,7 +131,7 @@ bool isNightTime() {
 ## ✅ Tested
 
 * ESP32-CAM (AI Thinker)
-* OV2640
+* OVA3660
 * FTP server with PASV support
 
 ---
